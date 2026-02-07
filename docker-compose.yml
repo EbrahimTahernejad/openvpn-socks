@@ -1,0 +1,23 @@
+services:
+  sl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sl
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    ports:
+      - "8050:1080"
+    volumes:
+      - ./vpns/:/vpn:ro
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    environment:
+      OPENVPN_CONFIG: /vpn/5u.ovpn
+      USE_DANTE: true
+      # SOCKS5_USER: user
+      # SOCKS5_PASS: pass
