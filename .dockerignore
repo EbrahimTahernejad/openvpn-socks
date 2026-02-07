@@ -1,0 +1,30 @@
+# Git
+.git
+.gitignore
+.gitkeep
+
+# Documentation
+README.md
+LICENSE
+COPYING
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose*.yml
+.dockerignore
+
+# VPN configs (mounted at runtime)
+vpns/
+
+# Build artifacts
+*.log
