@@ -4,7 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        MIRROR_URL: http://mirror.arvancloud.ir/alpine/v3.21/main
+        MIRROR_URL_MAIN: http://mirror.arvancloud.ir/alpine/v3.21/main
+        MIRROR_URL_COMMUNITY: http://mirror.arvancloud.ir/alpine/v3.21/community
     container_name: sl
     restart: unless-stopped
     cap_add:
