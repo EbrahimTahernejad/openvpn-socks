@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        MIRROR_URL: http://mirror.arvancloud.ir/alpine/v3.21/main
     container_name: sl
     restart: unless-stopped
     cap_add:
@@ -17,7 +19,6 @@ services:
       - 1.1.1.1
       - 8.8.8.8
     environment:
-      OPENVPN_CONFIG: /vpn/5u.ovpn
-      USE_DANTE: true
+      OPENVPN_CONFIG: /vpn/config.ovpn
       # SOCKS5_USER: user
       # SOCKS5_PASS: pass

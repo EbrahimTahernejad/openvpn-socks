@@ -28,19 +28,18 @@ export ENTRYPOINT_PID="${BASHPID}"
 trap "on_kill" EXIT
 trap "on_kill" SIGINT
 
-if [[ "${USE_DANTE}" == "true" ]]; then
-    # Determine auth method based on credentials
-    if [[ -n "${SOCKS5_USER}" && -n "${SOCKS5_PASS}" ]]; then
-        SOCKS_METHOD="username"
-        # Create user for dante authentication
-        adduser -D -H -s /sbin/nologin "${SOCKS5_USER}" 2>/dev/null || true
-        echo "${SOCKS5_USER}:${SOCKS5_PASS}" | chpasswd
-    else
-        SOCKS_METHOD="none"
-    fi
+# Determine auth method based on credentials
+if [[ -n "${SOCKS5_USER}" && -n "${SOCKS5_PASS}" ]]; then
+    SOCKS_METHOD="username"
+    # Create user for dante authentication
+    adduser -D -H -s /sbin/nologin "${SOCKS5_USER}" 2>/dev/null || true
+    echo "${SOCKS5_USER}:${SOCKS5_PASS}" | chpasswd
+else
+    SOCKS_METHOD="none"
+fi
 
-    # Create dante configuration for tun0 interface
-    cat > /etc/sockd.conf <<EOF
+# Create dante configuration for tun0 interface
+cat > /etc/sockd.conf <<EOF
 logoutput: stderr
 
 internal: 0.0.0.0 port = 1080
@@ -63,10 +62,7 @@ socks pass {
     log: error
 }
 EOF
-    spawn sockd -f /etc/sockd.conf
-else
-    spawn socks5
-fi
+spawn sockd -f /etc/sockd.conf
 
 if [[ -n "${SOCKS5_UP}" ]]; then
     spawn "${SOCKS5_UP}" "$@"
