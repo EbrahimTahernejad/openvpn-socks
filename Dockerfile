@@ -7,7 +7,7 @@ COPY update-resolv-conf.sh /etc/openvpn/update-resolv-conf
 
 ARG MIRROR_URL=http://dl-4.alpinelinux.org/alpine/edge/testing
 
-RUN echo "${MIRROR_URL}" >> /etc/apk/repositories \
+RUN echo "${MIRROR_URL}" > /etc/apk/repositories \
     && apk add --no-cache ca-certificates bash curl wget openvpn openresolv openrc dante-server \
     && chmod +x \
         /usr/local/bin/openvpn-up.sh \
